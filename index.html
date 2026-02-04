@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday Riddu Baby! 🎂💕</title>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="hearts-container"></div>
+    <div id="petals-container"></div>
+    <div id="fireworks-container"></div>
+    <div id="heart-trail"></div>
+    
+    <div class="floating-hearts">
+        <div class="heart">💖</div>
+        <div class="heart">💕</div>
+        <div class="heart">💗</div>
+        <div class="heart">💝</div>
+        <div class="heart">💘</div>
+    </div>
+
+    <div class="container">
+        <div class="hero-section">
+            <div class="cake-container">
+                <div class="cake">
+                    <div class="cake-base"></div>
+                    <div class="cake-middle"></div>
+                    <div class="cake-top"></div>
+                    <div class="candle">
+                        <div class="flame"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <h1 class="title">
+                <span class="happy">Happy</span>
+                <span class="birthday">Birthday</span>
+            </h1>
+            
+            <div class="name-container">
+                <p class="to-text">to my beautiful</p>
+                <h2 class="hero-name">Riddu Baby</h2>
+                <button id="surpriseBtn" class="surprise-btn">Click for Surprise! 🎁</button>
+            </div>
+        </div>
+
+        <div class="message-section" id="messageSection">
+            <div class="envelope" id="envelope">
+                <div class="envelope-front">
+                    <span class="envelope-icon">💌</span>
+                    <p>Click to open your letter</p>
+                </div>
+                <div class="envelope-back">
+                    <div class="letter">
+                        <h2>My Dearest Riddu Baby,</h2>
+                        <p class="letter-text">
+                            On this special day, I want you to know how incredibly special you are to me. 
+                            You light up my world with your smile and fill my heart with so much love.
+                        </p>
+                        <p class="letter-text">
+                            Every moment with you is a gift I treasure. Your kindness, your laugh, 
+                            your beautiful soul - everything about you makes me fall in love with you more each day.
+                        </p>
+                        <p class="letter-text">
+                            I hope this year brings you as much happiness as you bring to everyone around you. 
+                            You deserve all the love, joy, and beautiful moments in the world.
+                        </p>
+                        <p class="letter-text">
+                            Happy Birthday Riddu Baby! You are the most amazing person in my life. 
+                            I love you more than words can express! 💕
+                        </p>
+                        <p class="signature">Forever Yours,<br>❤️</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Photo Carousel Section -->
+        <div class="carousel-section">
+            <h2 class="section-title">Our Memories Together 📸</h2>
+            <div class="carousel-container">
+                <div class="carousel" id="photoCarousel">
+                    <div class="carousel-slide active">
+                        <div class="carousel-content">
+                            <span class="carousel-icon">💕</span>
+                            <p>Add your favorite photos here!</p>
+                        </div>
+                    </div>
+                    <div class="carousel-slide">
+                        <div class="carousel-content">
+                            <span class="carousel-icon">💖</span>
+                            <p>Every moment with you is precious</p>
+                        </div>
+                    </div>
+                    <div class="carousel-slide">
+                        <div class="carousel-content">
+                            <span class="carousel-icon">💗</span>
+                            <p>You make my heart smile</p>
+                        </div>
+                    </div>
+                </div>
+                <button class="carousel-btn prev" onclick="changeSlide(-1)">❮</button>
+                <button class="carousel-btn next" onclick="changeSlide(1)">❯</button>
+                <div class="carousel-dots" id="carouselDots"></div>
+            </div>
+        </div>
+
+        <!-- Typewriter Quotes Section -->
+        <div class="quotes-section">
+            <h2 class="section-title">Words From My Heart 💌</h2>
+            <div class="typewriter-container">
+                <div class="quote-display" id="quoteDisplay"></div>
+                <div class="quote-cursor">|</div>
+            </div>
+        </div>
+
+        <!-- Memory Timeline Section -->
+        <div class="timeline-section">
+            <h2 class="section-title">Our Journey Together 🛤️</h2>
+            <div class="timeline" id="memoryTimeline">
+                <div class="timeline-item" onclick="toggleTimeline(this)">
+                    <div class="timeline-dot">💕</div>
+                    <div class="timeline-content">
+                        <h3>How We Met</h3>
+                        <p class="timeline-date">Click to reveal this memory ✨</p>
+                        <p class="timeline-text hidden">The day our paths crossed and my life changed forever...</p>
+                    </div>
+                </div>
+                <div class="timeline-item" onclick="toggleTimeline(this)">
+                    <div class="timeline-dot">💖</div>
+                    <div class="timeline-content">
+                        <h3>Our First Date</h3>
+                        <p class="timeline-date">Click to reveal this memory ✨</p>
+                        <p class="timeline-text hidden">That magical evening I'll never forget...</p>
+                    </div>
+                </div>
+                <div class="timeline-item" onclick="toggleTimeline(this)">
+                    <div class="timeline-dot">💗</div>
+                    <div class="timeline-content">
+                        <h3>When I Knew</h3>
+                        <p class="timeline-date">Click to reveal this memory ✨</p>
+                        <p class="timeline-text hidden">The moment I realized you were the one...</p>
+                    </div>
+                </div>
+                <div class="timeline-item" onclick="toggleTimeline(this)">
+                    <div class="timeline-dot">💝</div>
+                    <div class="timeline-content">
+                        <h3>Today</h3>
+                        <p class="timeline-date">Your Special Day! 🎂</p>
+                        <p class="timeline-text hidden">Celebrating the most beautiful soul I know...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Reasons Why I Love You Section -->
+        <div class="reasons-section">
+            <h2 class="section-title">365 Reasons Why I Love You 💕</h2>
+            <div class="reasons-container">
+                <div class="reason-card" id="reasonCard">
+                    <div class="reason-number">Reason #<span id="reasonNum">1</span></div>
+                    <div class="reason-text" id="reasonText">Your beautiful smile that lights up my world ✨</div>
+                </div>
+                <button class="next-reason-btn" onclick="showNextReason()">Show Another Reason 💝</button>
+            </div>
+        </div>
+
+        <!-- Virtual Cake Cutting Section -->
+        <div class="cake-cutting-section">
+            <h2 class="section-title">Let's Cut Your Cake! 🎂</h2>
+            <div class="cake-interactive" id="interactiveCake">
+                <div class="big-cake">
+                    <div class="big-cake-base">🎂</div>
+                    <div class="big-candle">
+                        <div class="flame flickering"></div>
+                    </div>
+                </div>
+                <p class="cake-instruction">Make a wish and click the cake to blow out the candle!</p>
+                <div class="wish-reveal" id="wishReveal">
+                    <h3>🎉 Your Wish Has Been Made! 🎉</h3>
+                    <p>May all your dreams come true, Riddu Baby! 💕</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Wish Box Section -->
+        <div class="wishbox-section">
+            <h2 class="section-title">Make a Birthday Wish ✨</h2>
+            <div class="wishbox-container">
+                <div class="star-jar" id="starJar">
+                    <div class="jar">
+                        <span class="jar-icon">⭐</span>
+                        <span class="jar-label">Wish Jar</span>
+                        <span class="star-count"><span id="starCount">0</span> wishes</span>
+                    </div>
+                </div>
+                <div class="wish-input-area">
+                    <textarea id="wishInput" placeholder="Type your birthday wish here, Riddu Baby... 💫" rows="4"></textarea>
+                    <button class="add-wish-btn" onclick="addWish()">Add to Wish Jar 💫</button>
+                </div>
+                <div class="wishes-display" id="wishesDisplay"></div>
+            </div>
+        </div>
+
+        <div class="balloons-section">
+            <div class="balloon balloon-1">🎈</div>
+            <div class="balloon balloon-2">🎈</div>
+            <div class="balloon balloon-3">🎈</div>
+            <div class="balloon balloon-4">🎈</div>
+            <div class="balloon balloon-5">🎈</div>
+        </div>
+
+        <div class="interactive-section">
+            <div class="gift-box" id="giftBox">
+                <div class="gift-lid">
+                    <span class="ribbon">🎀</span>
+                </div>
+                <div class="gift-body">
+                    <span class="gift-text">Open Me!</span>
+                </div>
+            </div>
+            <div class="surprise-message" id="surpriseMessage">
+                <h3>You are my everything! 💖</h3>
+                <p class="countdown-text">Days we've been together: <span id="daysCount">0</span></p>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p class="footer-text">Made with 💕 for Riddu Baby - the most special person in my life</p>
+        </div>
+    </div>
+
+    <audio id="bgMusic" loop>
+        <source src="https://cdn.pixabay.com/download/audio/2022/03/10/audio_52a41c0475.mp3?filename=happy-birthday-to-you-piano-version-13976.mp3" type="audio/mpeg">
+    </audio>
+
+    <div class="music-control" id="musicControl">🎵</div>
+
+    <script src="script.js"></script>
+</body>
+</html>
