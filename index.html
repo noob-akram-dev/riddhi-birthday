@@ -2,10 +2,30 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <meta name="description" content="A special birthday celebration website made with love for Riddu Baby">
+    <meta name="theme-color" content="#ff1493">
+    
+    <!-- Open Graph / Social Media -->
+    <meta property="og:title" content="Happy Birthday Riddu Baby! 🎂💕">
+    <meta property="og:description" content="A special birthday surprise made with love">
+    <meta property="og:type" content="website">
+    
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Happy Birthday Riddu Baby! 🎂💕">
+    <meta name="twitter:description" content="A special birthday surprise made with love">
+    
+    <!-- Preconnect for performance -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
     <title>Happy Birthday Riddu Baby! 🎂💕</title>
     <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    
+    <!-- Favicon -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎂</text></svg>">
 </head>
 <body>
     <div id="hearts-container"></div>
@@ -77,34 +97,25 @@
             </div>
         </div>
 
-        <!-- Photo Carousel Section -->
-        <div class="carousel-section">
-            <h2 class="section-title">Our Memories Together 📸</h2>
+        <!-- Photo Gallery Section -->
+        <div class="gallery-section">
+            <h2 class="section-title">Our Beautiful Moments Together 📸</h2>
             <div class="carousel-container">
-                <div class="carousel" id="photoCarousel">
-                    <div class="carousel-slide active">
-                        <div class="carousel-content">
-                            <span class="carousel-icon">💕</span>
-                            <p>Add your favorite photos here!</p>
-                        </div>
-                    </div>
-                    <div class="carousel-slide">
-                        <div class="carousel-content">
-                            <span class="carousel-icon">💖</span>
-                            <p>Every moment with you is precious</p>
-                        </div>
-                    </div>
-                    <div class="carousel-slide">
-                        <div class="carousel-content">
-                            <span class="carousel-icon">💗</span>
-                            <p>You make my heart smile</p>
-                        </div>
-                    </div>
+                <div class="carousel-slide" id="carouselSlide">
+                    <!-- Photos will be injected here by JS -->
                 </div>
-                <button class="carousel-btn prev" onclick="changeSlide(-1)">❮</button>
-                <button class="carousel-btn next" onclick="changeSlide(1)">❯</button>
+                <button class="carousel-btn prev" onclick="moveCarousel(-1)">❮</button>
+                <button class="carousel-btn next" onclick="moveCarousel(1)">❯</button>
                 <div class="carousel-dots" id="carouselDots"></div>
             </div>
+        </div>
+
+        <!-- Lightbox -->
+        <div class="lightbox" id="lightbox" onclick="closeLightbox()">
+            <button class="lightbox-close" onclick="closeLightbox()">✕</button>
+            <button class="lightbox-nav prev" onclick="navigateLightbox(-1); event.stopPropagation();">❮</button>
+            <img id="lightboxImage" src="" alt="Full size">
+            <button class="lightbox-nav next" onclick="navigateLightbox(1); event.stopPropagation();">❯</button>
         </div>
 
         <!-- Typewriter Quotes Section -->
@@ -116,41 +127,42 @@
             </div>
         </div>
 
-        <!-- Memory Timeline Section -->
-        <div class="timeline-section">
-            <h2 class="section-title">Our Journey Together 🛤️</h2>
-            <div class="timeline" id="memoryTimeline">
-                <div class="timeline-item" onclick="toggleTimeline(this)">
-                    <div class="timeline-dot">💕</div>
-                    <div class="timeline-content">
-                        <h3>How We Met</h3>
-                        <p class="timeline-date">Click to reveal this memory ✨</p>
-                        <p class="timeline-text hidden">The day our paths crossed and my life changed forever...</p>
+        <!-- Memory Book Section -->
+        <div class="memory-book-section">
+            <h2 class="section-title">Our Story in Words 📖</h2>
+            <div class="memory-book" id="memoryBook">
+                <div class="book-container">
+                    <div class="book-page active" data-page="0">
+                        <div class="page-content">
+                            <h3>How We Met 💕</h3>
+                            <p>The day our paths crossed and my life changed forever. I knew from the moment I saw you that you were someone special.</p>
+                        </div>
+                    </div>
+                    <div class="book-page" data-page="1">
+                        <div class="page-content">
+                            <h3>Our First Date 💖</h3>
+                            <p>That magical evening I'll never forget. Every moment with you felt like a dream come true.</p>
+                        </div>
+                    </div>
+                    <div class="book-page" data-page="2">
+                        <div class="page-content">
+                            <h3>When I Knew 💗</h3>
+                            <p>The moment I realized you were the one. My heart knew before my mind could catch up.</p>
+                        </div>
+                    </div>
+                    <div class="book-page" data-page="3">
+                        <div class="page-content">
+                            <h3>Today 💝</h3>
+                            <p>Celebrating the most beautiful soul I know. Happy Birthday to my everything!</p>
+                        </div>
                     </div>
                 </div>
-                <div class="timeline-item" onclick="toggleTimeline(this)">
-                    <div class="timeline-dot">💖</div>
-                    <div class="timeline-content">
-                        <h3>Our First Date</h3>
-                        <p class="timeline-date">Click to reveal this memory ✨</p>
-                        <p class="timeline-text hidden">That magical evening I'll never forget...</p>
+                <div class="book-controls">
+                    <button class="book-btn" onclick="prevPage()">❮ Prev</button>
+                    <div class="page-indicator">
+                        <span id="currentPage">1</span> / <span id="totalPages">4</span>
                     </div>
-                </div>
-                <div class="timeline-item" onclick="toggleTimeline(this)">
-                    <div class="timeline-dot">💗</div>
-                    <div class="timeline-content">
-                        <h3>When I Knew</h3>
-                        <p class="timeline-date">Click to reveal this memory ✨</p>
-                        <p class="timeline-text hidden">The moment I realized you were the one...</p>
-                    </div>
-                </div>
-                <div class="timeline-item" onclick="toggleTimeline(this)">
-                    <div class="timeline-dot">💝</div>
-                    <div class="timeline-content">
-                        <h3>Today</h3>
-                        <p class="timeline-date">Your Special Day! 🎂</p>
-                        <p class="timeline-text hidden">Celebrating the most beautiful soul I know...</p>
-                    </div>
+                    <button class="book-btn" onclick="nextPage()">Next ❯</button>
                 </div>
             </div>
         </div>

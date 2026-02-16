@@ -17,7 +17,7 @@ function createFloatingHeart() {
     heart.style.animationDuration = (Math.random() * 3 + 5) + 's';
     heart.style.fontSize = (Math.random() * 20 + 20) + 'px';
     heartsContainer.appendChild(heart);
-    
+
     setTimeout(() => {
         heart.remove();
     }, 8000);
@@ -32,7 +32,7 @@ for (let i = 0; i < 10; i++) {
 }
 
 // Envelope click handler
-envelope.addEventListener('click', function() {
+envelope.addEventListener('click', function () {
     this.classList.toggle('opened');
     if (this.classList.contains('opened')) {
         createConfetti();
@@ -41,24 +41,24 @@ envelope.addEventListener('click', function() {
 });
 
 // Gift box click handler
-giftBox.addEventListener('click', function() {
+giftBox.addEventListener('click', function () {
     this.classList.add('opened');
     surpriseMessage.classList.add('show');
     createConfetti();
     createHeartsExplosion();
     playSound('celebration');
-    
-    // Calculate days (you can set your actual start date)
-    const startDate = new Date('2023-01-01'); // Change this to your relationship start date
+
+    // Calculate days together - EDIT THIS DATE to your actual anniversary
+    const ANNIVERSARY_DATE = new Date('2023-01-01'); // 🎯 CHANGE THIS to your relationship start date
     const today = new Date();
-    const diffTime = Math.abs(today - startDate);
+    const diffTime = Math.abs(today - ANNIVERSARY_DATE);
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-    daysCount.textContent = diffDays;
+    daysCount.textContent = diffDays.toLocaleString();
 });
 
 // Music control
 let isPlaying = false;
-musicControl.addEventListener('click', function() {
+musicControl.addEventListener('click', function () {
     if (isPlaying) {
         bgMusic.pause();
         this.classList.remove('playing');
@@ -73,28 +73,28 @@ musicControl.addEventListener('click', function() {
 });
 
 // Surprise button
-surpriseBtn.addEventListener('click', function() {
+surpriseBtn.addEventListener('click', function () {
     createConfetti();
     createHeartsExplosion();
-    
+
     // Scroll to message section
-    document.getElementById('messageSection').scrollIntoView({ 
-        behavior: 'smooth', 
-        block: 'center' 
+    document.getElementById('messageSection').scrollIntoView({
+        behavior: 'smooth',
+        block: 'center'
     });
-    
+
     // Show alert with cute message
     setTimeout(() => {
         alert(`🎉 Happy Birthday Riddu Baby! 🎂\n\nYou are the most special person in my life! 💕`);
     }, 500);
-    
+
     playSound('celebration');
 });
 
 // Create confetti
 function createConfetti() {
     const colors = ['#ff1493', '#ff69b4', '#ffb6c1', '#ffc0cb', '#ff69b4', '#da70d6', '#dda0dd'];
-    
+
     for (let i = 0; i < 50; i++) {
         setTimeout(() => {
             const confetti = document.createElement('div');
@@ -104,7 +104,7 @@ function createConfetti() {
             confetti.style.animationDuration = (Math.random() * 2 + 2) + 's';
             confetti.style.borderRadius = Math.random() > 0.5 ? '50%' : '0';
             document.body.appendChild(confetti);
-            
+
             setTimeout(() => confetti.remove(), 4000);
         }, i * 30);
     }
@@ -113,7 +113,7 @@ function createConfetti() {
 // Create hearts explosion
 function createHeartsExplosion() {
     const heartEmojis = ['💖', '💕', '💗', '💝', '💘', '💓', '💞', '💟'];
-    
+
     for (let i = 0; i < 20; i++) {
         setTimeout(() => {
             const heart = document.createElement('div');
@@ -124,20 +124,20 @@ function createHeartsExplosion() {
             heart.style.pointerEvents = 'none';
             heart.style.zIndex = '1000';
             heart.textContent = heartEmojis[Math.floor(Math.random() * heartEmojis.length)];
-            
+
             const angle = (Math.PI * 2 * i) / 20;
             const velocity = 200 + Math.random() * 200;
             const vx = Math.cos(angle) * velocity;
             const vy = Math.sin(angle) * velocity;
-            
+
             heart.style.transition = 'all 1.5s ease-out';
             document.body.appendChild(heart);
-            
+
             requestAnimationFrame(() => {
                 heart.style.transform = `translate(${vx}px, ${vy}px) scale(0)`;
                 heart.style.opacity = '0';
             });
-            
+
             setTimeout(() => heart.remove(), 1500);
         }, i * 50);
     }
@@ -150,11 +150,11 @@ function addPhoto(element) {
     const input = document.createElement('input');
     input.type = 'file';
     input.accept = 'image/*';
-    input.onchange = function(e) {
+    input.onchange = function (e) {
         const file = e.target.files[0];
         if (file) {
             const reader = new FileReader();
-            reader.onload = function(event) {
+            reader.onload = function (event) {
                 element.innerHTML = `<img src="${event.target.result}" alt="Memory">`;
                 element.style.border = 'none';
                 element.style.padding = '0';
@@ -170,10 +170,10 @@ function playSound(type) {
     const audioContext = new (window.AudioContext || window.webkitAudioContext)();
     const oscillator = audioContext.createOscillator();
     const gainNode = audioContext.createGain();
-    
+
     oscillator.connect(gainNode);
     gainNode.connect(audioContext.destination);
-    
+
     if (type === 'celebration') {
         // Happy sound
         oscillator.frequency.setValueAtTime(523.25, audioContext.currentTime); // C5
@@ -208,7 +208,7 @@ document.head.appendChild(style);
 
 // Smooth scroll for all links
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function(e) {
+    anchor.addEventListener('click', function (e) {
         e.preventDefault();
         const target = document.querySelector(this.getAttribute('href'));
         if (target) {
@@ -218,10 +218,10 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 });
 
 // Add parallax effect on mouse move
-document.addEventListener('mousemove', function(e) {
+document.addEventListener('mousemove', function (e) {
     const mouseX = e.clientX / window.innerWidth;
     const mouseY = e.clientY / window.innerHeight;
-    
+
     const floatingHearts = document.querySelectorAll('.floating-hearts .heart');
     floatingHearts.forEach((heart, index) => {
         const speed = (index + 1) * 10;
@@ -232,7 +232,7 @@ document.addEventListener('mousemove', function(e) {
 });
 
 // Welcome animation on page load
-window.addEventListener('load', function() {
+window.addEventListener('load', function () {
     setTimeout(() => {
         createConfetti();
         playSound('celebration');
@@ -240,7 +240,7 @@ window.addEventListener('load', function() {
 });
 
 // Add sparkles on click
-document.addEventListener('click', function(e) {
+document.addEventListener('click', function (e) {
     const sparkle = document.createElement('div');
     sparkle.style.position = 'fixed';
     sparkle.style.left = e.clientX + 'px';
@@ -251,17 +251,65 @@ document.addEventListener('click', function(e) {
     sparkle.textContent = '✨';
     sparkle.style.transition = 'all 0.5s ease-out';
     document.body.appendChild(sparkle);
-    
+
     requestAnimationFrame(() => {
         sparkle.style.transform = 'translateY(-50px) scale(0)';
         sparkle.style.opacity = '0';
     });
-    
+
     setTimeout(() => sparkle.remove(), 500);
 });
 
+// ============================================
+// ENHANCED FEATURES - Performance & Accessibility
+// ============================================
+
+// Check for reduced motion preference
+const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+// Intersection Observer for scroll animations
+const observerOptions = {
+    root: null,
+    rootMargin: '0px',
+    threshold: 0.1
+};
+
+const sectionObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            // Add subtle animation class
+            entry.target.style.opacity = '1';
+            entry.target.style.transform = 'translateY(0)';
+        }
+    });
+}, observerOptions);
+
+// Observe all sections
+document.querySelectorAll('.hero-section, .message-section, .gallery-section, .quotes-section, .memory-book-section, .reasons-section, .cake-cutting-section, .wishbox-section').forEach(section => {
+    section.style.opacity = '0';
+    section.style.transform = 'translateY(30px)';
+    section.style.transition = prefersReducedMotion ? 'none' : 'opacity 0.8s ease, transform 0.8s ease';
+    sectionObserver.observe(section);
+});
+
+// Touch feedback helper
+function addTouchFeedback(element) {
+    element.addEventListener('touchstart', () => {
+        element.style.transform = 'scale(0.95)';
+    }, { passive: true });
+    
+    element.addEventListener('touchend', () => {
+        element.style.transform = '';
+    }, { passive: true });
+}
+
+// Add touch feedback to interactive elements
+document.querySelectorAll('button, .envelope, .gift-box, .big-cake, .photo-item').forEach(addTouchFeedback);
+
 console.log('🎂 Happy Birthday Website Loaded! 💕');
 console.log('Made with love for the most special person! 💖');
+console.log(prefersReducedMotion ? '⚠️ Reduced motion enabled' : '✨ Full animations enabled');
 
 // ============================================
 // NEW FEATURES - Enhanced Interactive Elements
@@ -278,7 +326,7 @@ function createPetal() {
     petal.style.animationDelay = Math.random() * 2 + 's';
     petal.style.transform = `rotate(${Math.random() * 360}deg)`;
     petalsContainer.appendChild(petal);
-    
+
     setTimeout(() => {
         petal.remove();
     }, 9000);
@@ -298,7 +346,7 @@ const fireworksContainer = document.getElementById('fireworks-container');
 function createFirework(x, y) {
     const colors = ['#ff1493', '#ff69b4', '#ffb6c1', '#ffd700', '#ff6347', '#da70d6', '#00ced1'];
     const particleCount = 30;
-    
+
     for (let i = 0; i < particleCount; i++) {
         const particle = document.createElement('div');
         particle.className = 'firework';
@@ -307,22 +355,22 @@ function createFirework(x, y) {
         particle.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
         particle.style.width = (Math.random() * 6 + 4) + 'px';
         particle.style.height = particle.style.width;
-        
+
         const angle = (Math.PI * 2 * i) / particleCount;
         const velocity = 100 + Math.random() * 100;
         const vx = Math.cos(angle) * velocity;
         const vy = Math.sin(angle) * velocity;
-        
+
         particle.style.setProperty('--vx', vx + 'px');
         particle.style.setProperty('--vy', vy + 'px');
-        
+
         fireworksContainer.appendChild(particle);
-        
+
         // Animate particle
         requestAnimationFrame(() => {
             particle.style.transform = `translate(${vx}px, ${vy}px) scale(0)`;
         });
-        
+
         setTimeout(() => particle.remove(), 1000);
     }
 }
@@ -338,59 +386,162 @@ function launchRandomFirework() {
 const heartTrailContainer = document.getElementById('heart-trail');
 let lastHeartTime = 0;
 
-document.addEventListener('mousemove', function(e) {
+document.addEventListener('mousemove', function (e) {
     const currentTime = Date.now();
     if (currentTime - lastHeartTime < 100) return; // Limit heart creation rate
-    
+
     lastHeartTime = currentTime;
-    
+
     const heart = document.createElement('div');
     heart.className = 'trail-heart';
     heart.textContent = ['💖', '💕', '💗', '💝'][Math.floor(Math.random() * 4)];
     heart.style.left = e.clientX + 'px';
     heart.style.top = e.clientY + 'px';
     heartTrailContainer.appendChild(heart);
-    
+
     setTimeout(() => heart.remove(), 1000);
 });
 
-// Photo Carousel
-let currentSlide = 0;
-const carouselSlides = document.querySelectorAll('.carousel-slide');
-const carouselDots = document.getElementById('carouselDots');
+// Photo Carousel & Lightbox
+const photos = [
+    'ab982c8b-dab3-4a0a-a59c-c1f796552926.jpg',
+    // Deleted: '9611a020-58e7-423c-a141-9a5dca958861.jpg',
+    'd2053229-69c4-4f95-bc10-fe7f2f2ed364.jpg',
+    '24081104-75e1-4845-bfc2-e0ac6256a49b.jpg',
+    'e5a3edb9-f3eb-4420-afe6-cd0715927f97.jpg',
+    '99bb3d32-245f-4716-8d76-7f6293e26cae.jpg',
+    'b9cfcf11-ea8c-4668-9ab0-9075397eddc4.jpg',
+    '14e08a76-67e7-42e8-bd43-6186c777d542.jpg',
+    'WhatsApp Image 2026-02-16 at 8.25.31 PM.jpeg'
+];
 
-// Create dots
-if (carouselSlides.length > 0) {
-    carouselSlides.forEach((_, index) => {
+let currentPhotoIndex = 0;
+const carouselSlide = document.getElementById('carouselSlide');
+const carouselDots = document.getElementById('carouselDots');
+const lightbox = document.getElementById('lightbox');
+const lightboxImage = document.getElementById('lightboxImage');
+let carouselInterval;
+
+function initCarousel() {
+    if (!carouselSlide) return;
+
+    // Clear existing content
+    carouselSlide.innerHTML = '';
+    carouselDots.innerHTML = '';
+
+    photos.forEach((photo, index) => {
+        // Create slide item
+        const item = document.createElement('div');
+        item.className = 'carousel-item';
+        item.innerHTML = `<img src="${photo}" alt="Memory ${index + 1}" onclick="openLightbox(${index})">`;
+        carouselSlide.appendChild(item);
+
+        // Create dot
         const dot = document.createElement('div');
-        dot.className = 'carousel-dot' + (index === 0 ? ' active' : '');
+        dot.className = `dot ${index === 0 ? 'active' : ''}`;
         dot.onclick = () => goToSlide(index);
         carouselDots.appendChild(dot);
     });
+
+    startCarousel();
 }
 
-function changeSlide(direction) {
-    carouselSlides[currentSlide].classList.remove('active');
-    document.querySelectorAll('.carousel-dot')[currentSlide].classList.remove('active');
-    
-    currentSlide = (currentSlide + direction + carouselSlides.length) % carouselSlides.length;
-    
-    carouselSlides[currentSlide].classList.add('active');
-    document.querySelectorAll('.carousel-dot')[currentSlide].classList.add('active');
+function updateCarousel() {
+    carouselSlide.style.transform = `translateX(-${currentPhotoIndex * 100}%)`;
+
+    // Update dots
+    document.querySelectorAll('.dot').forEach((dot, index) => {
+        dot.classList.toggle('active', index === currentPhotoIndex);
+    });
+}
+
+function moveCarousel(direction) {
+    currentPhotoIndex = (currentPhotoIndex + direction + photos.length) % photos.length;
+    updateCarousel();
+    resetCarouselTimer();
 }
 
 function goToSlide(index) {
-    carouselSlides[currentSlide].classList.remove('active');
-    document.querySelectorAll('.carousel-dot')[currentSlide].classList.remove('active');
-    
-    currentSlide = index;
-    
-    carouselSlides[currentSlide].classList.add('active');
-    document.querySelectorAll('.carousel-dot')[currentSlide].classList.add('active');
+    currentPhotoIndex = index;
+    updateCarousel();
+    resetCarouselTimer();
 }
 
-// Auto-advance carousel
-setInterval(() => changeSlide(1), 5000);
+function startCarousel() {
+    carouselInterval = setInterval(() => moveCarousel(1), 3000); // Change slide every 5 seconds
+}
+
+function resetCarouselTimer() {
+    clearInterval(carouselInterval);
+    startCarousel();
+}
+
+// Initialize on load
+window.addEventListener('load', initCarousel);
+
+// Swipe gesture support for carousel
+let touchStartX = 0;
+let touchEndX = 0;
+let touchStartY = 0;
+
+if (carouselSlide) {
+    carouselSlide.addEventListener('touchstart', (e) => {
+        touchStartX = e.changedTouches[0].screenX;
+        touchStartY = e.changedTouches[0].screenY;
+    }, { passive: true });
+
+    carouselSlide.addEventListener('touchend', (e) => {
+        touchEndX = e.changedTouches[0].screenX;
+        const touchEndY = e.changedTouches[0].screenY;
+        
+        // Calculate swipe distance
+        const diffX = touchStartX - touchEndX;
+        const diffY = touchStartY - touchEndY;
+        
+        // Only handle horizontal swipes (ignore vertical scrolling)
+        if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 50) {
+            if (diffX > 0) {
+                moveCarousel(1); // Swipe left - next
+            } else {
+                moveCarousel(-1); // Swipe right - previous
+            }
+        }
+    }, { passive: true });
+}
+
+// Lightbox functions
+function openLightbox(index) {
+    currentPhotoIndex = index;
+    lightboxImage.src = photos[index];
+    lightbox.classList.add('active');
+    document.body.style.overflow = 'hidden';
+    clearInterval(carouselInterval); // Pause carousel when lightbox is open
+}
+
+function closeLightbox() {
+    lightbox.classList.remove('active');
+    document.body.style.overflow = 'auto';
+    startCarousel(); // Resume carousel
+}
+
+function navigateLightbox(direction) {
+    currentPhotoIndex = (currentPhotoIndex + direction + photos.length) % photos.length;
+    lightboxImage.src = photos[currentPhotoIndex];
+    updateCarousel(); // Sync carousel with lightbox
+}
+
+// Keyboard navigation
+document.addEventListener('keydown', (e) => {
+    if (lightbox.classList.contains('active')) {
+        if (e.key === 'Escape') closeLightbox();
+        if (e.key === 'ArrowLeft') navigateLightbox(-1);
+        if (e.key === 'ArrowRight') navigateLightbox(1);
+    } else {
+        // Allow browsing carousel with arrows even if lightbox is closed
+        if (e.key === 'ArrowLeft') moveCarousel(-1);
+        if (e.key === 'ArrowRight') moveCarousel(1);
+    }
+});
 
 // Typewriter Quotes
 const quotes = [
@@ -414,7 +565,7 @@ let typeSpeed = 100;
 
 function typeWriter() {
     const currentQuote = quotes[quoteIndex];
-    
+
     if (isDeleting) {
         quoteDisplay.textContent = currentQuote.substring(0, charIndex - 1);
         charIndex--;
@@ -424,7 +575,7 @@ function typeWriter() {
         charIndex++;
         typeSpeed = 100;
     }
-    
+
     if (!isDeleting && charIndex === currentQuote.length) {
         isDeleting = true;
         typeSpeed = 2000; // Pause at end
@@ -433,7 +584,7 @@ function typeWriter() {
         quoteIndex = (quoteIndex + 1) % quotes.length;
         typeSpeed = 500; // Pause before new quote
     }
-    
+
     setTimeout(typeWriter, typeSpeed);
 }
 
@@ -442,20 +593,44 @@ if (quoteDisplay) {
     typeWriter();
 }
 
-// Timeline Toggle
-function toggleTimeline(item) {
-    const text = item.querySelector('.timeline-text');
-    const date = item.querySelector('.timeline-date');
-    
-    if (text.classList.contains('hidden')) {
-        text.classList.remove('hidden');
-        text.classList.add('revealed');
-        date.textContent = date.textContent.replace('Click to reveal this memory', 'A precious memory');
-        createConfetti();
-    } else {
-        text.classList.remove('revealed');
-        text.classList.add('hidden');
+// Memory Book Navigation
+let currentBookPage = 0;
+const bookPages = document.querySelectorAll('.book-page');
+const totalPages = bookPages.length;
+
+function updateBookDisplay() {
+    bookPages.forEach((page, index) => {
+        page.classList.remove('active');
+        if (index === currentBookPage) {
+            page.classList.add('active');
+        }
+    });
+
+    document.getElementById('currentPage').textContent = currentBookPage + 1;
+    document.getElementById('totalPages').textContent = totalPages;
+
+    // Update button states
+    document.querySelectorAll('.book-btn')[0].disabled = currentBookPage === 0;
+    document.querySelectorAll('.book-btn')[1].disabled = currentBookPage === totalPages - 1;
+}
+
+function nextPage() {
+    if (currentBookPage < totalPages - 1) {
+        currentBookPage++;
+        updateBookDisplay();
     }
+}
+
+function prevPage() {
+    if (currentBookPage > 0) {
+        currentBookPage--;
+        updateBookDisplay();
+    }
+}
+
+// Initialize book display
+if (bookPages.length > 0) {
+    updateBookDisplay();
 }
 
 // Reasons Why I Love You
@@ -486,23 +661,23 @@ let currentReason = 0;
 
 function showNextReason() {
     currentReason = (currentReason + 1) % reasons.length;
-    
+
     const reasonNum = document.getElementById('reasonNum');
     const reasonText = document.getElementById('reasonText');
     const reasonCard = document.getElementById('reasonCard');
-    
+
     // Animate out
     reasonCard.style.transform = 'scale(0.95)';
     reasonCard.style.opacity = '0.7';
-    
+
     setTimeout(() => {
         reasonNum.textContent = currentReason + 1;
         reasonText.textContent = reasons[currentReason];
-        
+
         // Animate in
         reasonCard.style.transform = 'scale(1)';
         reasonCard.style.opacity = '1';
-        
+
         // Create mini celebration
         createConfetti();
         launchRandomFirework();
@@ -515,32 +690,32 @@ const wishReveal = document.getElementById('wishReveal');
 let cakeCut = false;
 
 if (interactiveCake) {
-    interactiveCake.addEventListener('click', function() {
+    interactiveCake.addEventListener('click', function () {
         if (!cakeCut) {
             cakeCut = true;
-            
+
             const cake = this.querySelector('.big-cake');
             const flame = this.querySelector('.flame');
-            
+
             cake.classList.add('cut');
             flame.classList.add('blowout');
-            
+
             // Big celebration
             createConfetti();
             createHeartsExplosion();
-            
+
             // Launch multiple fireworks
             for (let i = 0; i < 5; i++) {
                 setTimeout(() => launchRandomFirework(), i * 200);
             }
-            
+
             // Show wish reveal
             setTimeout(() => {
                 wishReveal.classList.add('show');
             }, 500);
-            
+
             playSound('celebration');
-            
+
             // Show alert
             setTimeout(() => {
                 alert('🎂 Happy Birthday Riddu Baby! 🎉\n\nMake a wish and blow out the candle! 💫');
@@ -557,29 +732,29 @@ function addWish() {
     const wishText = wishInput.value.trim();
     const wishesDisplay = document.getElementById('wishesDisplay');
     const starCount = document.getElementById('starCount');
-    
+
     if (wishText) {
         wishCount++;
-        
+
         // Create wish bubble
         const wishBubble = document.createElement('div');
         wishBubble.className = 'wish-bubble';
         wishBubble.textContent = wishText;
         wishesDisplay.insertBefore(wishBubble, wishesDisplay.firstChild);
-        
+
         // Update count
         starCount.textContent = wishCount;
-        
+
         // Clear input
         wishInput.value = '';
-        
+
         // Celebration
         createConfetti();
         launchRandomFirework();
-        
+
         // Scroll to show new wish
         wishBubble.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-        
+
         playSound('open');
     } else {
         wishInput.style.animation = 'shake 0.5s';
@@ -590,7 +765,7 @@ function addWish() {
 }
 
 // Allow Enter key to submit wish
-document.getElementById('wishInput')?.addEventListener('keypress', function(e) {
+document.getElementById('wishInput')?.addEventListener('keypress', function (e) {
     if (e.key === 'Enter' && !e.shiftKey) {
         e.preventDefault();
         addWish();
@@ -605,7 +780,7 @@ setInterval(() => {
 }, 8000);
 
 // Enhanced welcome with fireworks
-window.addEventListener('load', function() {
+window.addEventListener('load', function () {
     setTimeout(() => {
         // Launch welcome fireworks
         for (let i = 0; i < 3; i++) {
