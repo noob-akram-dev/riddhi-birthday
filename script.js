@@ -57,16 +57,9 @@ function createFallingHeart() {
     }, 7000);
 }
 
-// Create hearts periodically - MORE FREQUENT!
-setInterval(createFloatingHeart, 300);
-setInterval(createRisingHeart, 600);
-setInterval(createFallingHeart, 400);
-
-// Initial hearts - MORE HEARTS!
-for (let i = 0; i < 25; i++) {
-    setTimeout(createFloatingHeart, i * 150);
-    setTimeout(createRisingHeart, i * 250);
-    setTimeout(createFallingHeart, i * 180);
+// Initial hearts - REDUCED for better performance
+for (let i = 0; i < 5; i++) {
+    setTimeout(createFloatingHeart, i * 500);
 }
 
 // Envelope click handler
@@ -300,8 +293,8 @@ window.addEventListener('load', function () {
 // Heart burst on background click (removed sparkle flicker)
 document.addEventListener('click', function (e) {
     // Don't trigger on buttons or interactive elements
-    if (e.target.tagName === 'BUTTON' || 
-        e.target.closest('button') || 
+    if (e.target.tagName === 'BUTTON' ||
+        e.target.closest('button') ||
         e.target.closest('.envelope') ||
         e.target.closest('.gift-box') ||
         e.target.closest('.big-cake') ||
@@ -311,7 +304,7 @@ document.addEventListener('click', function (e) {
         e.target.closest('.spinner-container')) {
         return;
     }
-    
+
     // Create mini heart burst on click
     createHeartBurst(e.clientX, e.clientY, 15);
 });
@@ -374,7 +367,7 @@ function startCelebration() {
     createConfetti();
     createHeartsExplosion();
     playSound('celebration');
-    
+
     // GRAND ENTRANCE: Multiple heart bursts!
     for (let i = 0; i < 5; i++) {
         setTimeout(() => {
@@ -974,60 +967,43 @@ setInterval(() => {
 }, 8000);
 
 // EXTRA SPECIAL: Heart Burst Explosion - Creates a magical burst of hearts
-function createHeartBurst(x, y, count = 50) {
-    const heartEmojis = ['💖', '💕', '💗', '💝', '💘', '💓', '💞', '💟', '❤️', '🔥', '✨', '🌹', '🌸', '💐'];
-    
+function createHeartBurst(x, y, count = 30) {
+    const heartEmojis = ['💖', '💕', '💗', '💝', '💘', '💓', '💞', '💟', '❤️', '🔥', '✨', '🌹'];
+
     for (let i = 0; i < count; i++) {
         setTimeout(() => {
             const heart = document.createElement('div');
             heart.style.position = 'fixed';
             heart.style.left = (x || window.innerWidth / 2) + 'px';
             heart.style.top = (y || window.innerHeight / 2) + 'px';
-            heart.style.fontSize = (Math.random() * 2 + 1.5) + 'rem';
+            heart.style.fontSize = (Math.random() * 1.5 + 1) + 'rem';
             heart.style.pointerEvents = 'none';
             heart.style.zIndex = '10000';
             heart.style.userSelect = 'none';
             heart.textContent = heartEmojis[Math.floor(Math.random() * heartEmojis.length)];
-            
+
             // Burst in all directions with different speeds
             const angle = (Math.PI * 2 * i) / count;
-            const velocity = 200 + Math.random() * 400;
+            const velocity = 150 + Math.random() * 300;
             const vx = Math.cos(angle) * velocity;
             const vy = Math.sin(angle) * velocity;
-            
-            heart.style.transition = `all ${1.5 + Math.random()}s cubic-bezier(0.25, 0.46, 0.45, 0.94)`;
-            heart.style.filter = `hue-rotate(${Math.random() * 60}deg) drop-shadow(0 0 15px rgba(255, 105, 180, 0.8))`;
+
+            heart.style.transition = `all ${1.2 + Math.random()}s cubic-bezier(0.25, 0.46, 0.45, 0.94)`;
+            heart.style.filter = `hue-rotate(${Math.random() * 60}deg)`;
             document.body.appendChild(heart);
-            
+
             // Force reflow
             heart.offsetHeight;
-            
+
             requestAnimationFrame(() => {
-                heart.style.transform = `translate(${vx}px, ${vy}px) rotate(${Math.random() * 720}deg) scale(${Math.random() * 0.5 + 0.3})`;
+                heart.style.transform = `translate(${vx}px, ${vy}px) rotate(${Math.random() * 360}deg) scale(0)`;
                 heart.style.opacity = '0';
             });
-            
+
             setTimeout(() => heart.remove(), 2500);
         }, i * 15);
     }
 }
-
-// Heart burst on scroll at special moments
-let lastScrollY = window.scrollY;
-window.addEventListener('scroll', () => {
-    const currentScrollY = window.scrollY;
-    const scrollDirection = currentScrollY > lastScrollY ? 'down' : 'up';
-    
-    // Create heart burst every 800px of scrolling
-    if (Math.floor(currentScrollY / 800) > Math.floor(lastScrollY / 800)) {
-        createHeartBurst(
-            Math.random() * window.innerWidth,
-            window.innerHeight / 2
-        );
-    }
-    
-    lastScrollY = currentScrollY;
-}, { passive: true });
 
 // Enhanced welcome with fireworks
 window.addEventListener('load', function () {
@@ -1093,17 +1069,17 @@ function createFloatingNote() {
     note.style.top = Math.random() * 80 + 10 + '%';
     note.style.animationDuration = (Math.random() * 3 + 4) + 's';
     note.style.fontSize = (Math.random() * 10 + 30) + 'px';
-    
+
     const message = loveMessages[Math.floor(Math.random() * loveMessages.length)];
     note.dataset.message = message;
-    
-    note.addEventListener('click', function(e) {
+
+    note.addEventListener('click', function (e) {
         e.stopPropagation();
         collectNote(this);
     });
-    
+
     loveNotesContainer.appendChild(note);
-    
+
     // Remove after animation
     setTimeout(() => {
         if (note.parentNode) {
@@ -1115,76 +1091,76 @@ function createFloatingNote() {
 function collectNote(noteElement) {
     const message = noteElement.dataset.message;
     collectedNotes.push(message);
-    
+
     // Update jar count
     jarCount.textContent = collectedNotes.length;
-    
+
     // Animate collection
     noteElement.style.transform = 'scale(1.5)';
     noteElement.style.transition = 'all 0.3s ease';
-    
+
     setTimeout(() => {
         // Move to jar
         const jarRect = loveJar.getBoundingClientRect();
         const noteRect = noteElement.getBoundingClientRect();
-        
+
         noteElement.style.position = 'fixed';
         noteElement.style.left = noteRect.left + 'px';
         noteElement.style.top = noteRect.top + 'px';
         noteElement.style.zIndex = '10000';
-        
+
         requestAnimationFrame(() => {
-            noteElement.style.left = (jarRect.left + jarRect.width/2) + 'px';
-            noteElement.style.top = (jarRect.top + jarRect.height/2) + 'px';
+            noteElement.style.left = (jarRect.left + jarRect.width / 2) + 'px';
+            noteElement.style.top = (jarRect.top + jarRect.height / 2) + 'px';
             noteElement.style.transform = 'scale(0)';
             noteElement.style.opacity = '0';
         });
-        
+
         setTimeout(() => noteElement.remove(), 300);
     }, 200);
-    
+
     // Jar bounce animation
     loveJar.style.animation = 'jarBounce 0.5s ease';
     setTimeout(() => {
         loveJar.style.animation = '';
     }, 500);
-    
+
     // Heart celebration
     const rect = noteElement.getBoundingClientRect();
-    createHeartBurst(rect.left + rect.width/2, rect.top + rect.height/2, 20);
+    createHeartBurst(rect.left + rect.width / 2, rect.top + rect.height / 2, 20);
 }
 
-// Create notes periodically
-setInterval(createFloatingNote, 4000);
+// Create notes periodically - REDUCED FREQUENCY
+setInterval(createFloatingNote, 10000);
 
 // Create initial notes
-for (let i = 0; i < 3; i++) {
-    setTimeout(createFloatingNote, i * 1000);
+for (let i = 0; i < 2; i++) {
+    setTimeout(createFloatingNote, i * 3000);
 }
 
 // Jar click to view collected notes
-loveJar.addEventListener('click', function() {
+loveJar.addEventListener('click', function () {
     if (collectedNotes.length === 0) {
         alert('Collect love notes by clicking on them! 💌');
         return;
     }
-    
+
     collectedNotesContainer.innerHTML = collectedNotes.map((note, index) => `
         <div class="collected-note" style="animation-delay: ${index * 0.1}s">
             <span class="note-number">#${index + 1}</span>
             <span class="note-text">${note}</span>
         </div>
     `).join('');
-    
+
     notesModal.classList.add('active');
 });
 
 // Close modal
-notesClose.addEventListener('click', function() {
+notesClose.addEventListener('click', function () {
     notesModal.classList.remove('active');
 });
 
-notesModal.addEventListener('click', function(e) {
+notesModal.addEventListener('click', function (e) {
     if (e.target === notesModal) {
         notesModal.classList.remove('active');
     }
@@ -1209,26 +1185,26 @@ const prizes = [
     { emoji: '🎟️', text: 'Love Coupon', description: 'Redeem anytime for anything you want!' }
 ];
 
-spinButton.addEventListener('click', function() {
+spinButton.addEventListener('click', function () {
     if (isSpinning) return;
-    
+
     isSpinning = true;
     spinButton.disabled = true;
     spinButton.textContent = 'Spinning... 🎰';
-    
+
     // Random rotation (at least 5 full spins + random segment)
     const randomDegree = Math.floor(Math.random() * 360);
     const totalRotation = 1800 + randomDegree; // 5 full spins (360 * 5)
-    
+
     // Apply rotation
     loveWheel.style.transform = `rotate(${totalRotation}deg)`;
     loveWheel.style.transition = 'transform 4s cubic-bezier(0.17, 0.67, 0.12, 0.99)';
-    
+
     // Calculate winning prize
     const segmentAngle = 360 / 8;
     const winningIndex = Math.floor((360 - (randomDegree % 360)) / segmentAngle) % 8;
     const winningPrize = prizes[winningIndex];
-    
+
     // Show result after spin
     setTimeout(() => {
         prizeDisplay.innerHTML = `
@@ -1239,12 +1215,12 @@ spinButton.addEventListener('click', function() {
                 <button class="claim-prize-btn" onclick="claimPrize('${winningPrize.text}')">Claim Prize 🎁</button>
             </div>
         `;
-        
+
         // Celebration
         createConfetti();
-        createHeartBurst(window.innerWidth/2, window.innerHeight/2, 50);
+        createHeartBurst(window.innerWidth / 2, window.innerHeight / 2, 50);
         playSound('celebration');
-        
+
         // Reset
         setTimeout(() => {
             isSpinning = false;
