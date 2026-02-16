@@ -8,27 +8,65 @@ const bgMusic = document.getElementById('bgMusic');
 const surpriseBtn = document.getElementById('surpriseBtn');
 const daysCount = document.getElementById('daysCount');
 
-// Generate floating hearts
+// Generate floating hearts - ENHANCED VERSION
 function createFloatingHeart() {
     const heart = document.createElement('div');
     heart.className = 'floating-heart';
-    heart.textContent = ['💖', '💕', '💗', '💝', '💘', '💓', '💞'][Math.floor(Math.random() * 7)];
+    heart.textContent = ['💖', '💕', '💗', '💝', '💘', '💓', '💞', '💟', '❤️', '🔥', '✨', '🌹'][Math.floor(Math.random() * 12)];
     heart.style.left = Math.random() * 100 + '%';
-    heart.style.animationDuration = (Math.random() * 3 + 5) + 's';
-    heart.style.fontSize = (Math.random() * 20 + 20) + 'px';
+    heart.style.animationDuration = (Math.random() * 4 + 6) + 's';
+    heart.style.fontSize = (Math.random() * 30 + 25) + 'px';
+    heart.style.opacity = Math.random() * 0.5 + 0.5;
+    heart.style.filter = `hue-rotate(${Math.random() * 60 - 30}deg)`;
     heartsContainer.appendChild(heart);
 
     setTimeout(() => {
         heart.remove();
-    }, 8000);
+    }, 10000);
 }
 
-// Create hearts periodically
-setInterval(createFloatingHeart, 500);
+// Create hearts rising from bottom
+function createRisingHeart() {
+    const heart = document.createElement('div');
+    heart.className = 'rising-heart';
+    heart.textContent = ['💖', '💕', '💗', '💝', '💘'][Math.floor(Math.random() * 5)];
+    heart.style.left = Math.random() * 100 + '%';
+    heart.style.animationDuration = (Math.random() * 5 + 8) + 's';
+    heart.style.fontSize = (Math.random() * 25 + 20) + 'px';
+    heart.style.opacity = Math.random() * 0.4 + 0.3;
+    heartsContainer.appendChild(heart);
 
-// Initial hearts
-for (let i = 0; i < 10; i++) {
-    setTimeout(createFloatingHeart, i * 200);
+    setTimeout(() => {
+        heart.remove();
+    }, 13000);
+}
+
+// Create hearts falling like rain
+function createFallingHeart() {
+    const heart = document.createElement('div');
+    heart.className = 'falling-heart';
+    heart.textContent = ['💖', '💕', '💗', '💝', '💘', '💓'][Math.floor(Math.random() * 6)];
+    heart.style.left = Math.random() * 100 + '%';
+    heart.style.animationDuration = (Math.random() * 3 + 4) + 's';
+    heart.style.fontSize = (Math.random() * 20 + 15) + 'px';
+    heart.style.opacity = Math.random() * 0.6 + 0.2;
+    heartsContainer.appendChild(heart);
+
+    setTimeout(() => {
+        heart.remove();
+    }, 7000);
+}
+
+// Create hearts periodically - MORE FREQUENT!
+setInterval(createFloatingHeart, 300);
+setInterval(createRisingHeart, 600);
+setInterval(createFallingHeart, 400);
+
+// Initial hearts - MORE HEARTS!
+for (let i = 0; i < 25; i++) {
+    setTimeout(createFloatingHeart, i * 150);
+    setTimeout(createRisingHeart, i * 250);
+    setTimeout(createFallingHeart, i * 180);
 }
 
 // Envelope click handler
@@ -259,25 +297,23 @@ window.addEventListener('load', function () {
     }, 1000);
 });
 
-// Add sparkles on click
+// Heart burst on background click (removed sparkle flicker)
 document.addEventListener('click', function (e) {
-    const sparkle = document.createElement('div');
-    sparkle.style.position = 'fixed';
-    sparkle.style.left = e.clientX + 'px';
-    sparkle.style.top = e.clientY + 'px';
-    sparkle.style.fontSize = '24px';
-    sparkle.style.pointerEvents = 'none';
-    sparkle.style.zIndex = '10000';
-    sparkle.textContent = '✨';
-    sparkle.style.transition = 'all 0.5s ease-out';
-    document.body.appendChild(sparkle);
-
-    requestAnimationFrame(() => {
-        sparkle.style.transform = 'translateY(-50px) scale(0)';
-        sparkle.style.opacity = '0';
-    });
-
-    setTimeout(() => sparkle.remove(), 500);
+    // Don't trigger on buttons or interactive elements
+    if (e.target.tagName === 'BUTTON' || 
+        e.target.closest('button') || 
+        e.target.closest('.envelope') ||
+        e.target.closest('.gift-box') ||
+        e.target.closest('.big-cake') ||
+        e.target.closest('input') ||
+        e.target.closest('textarea') ||
+        e.target.closest('.love-note') ||
+        e.target.closest('.spinner-container')) {
+        return;
+    }
+    
+    // Create mini heart burst on click
+    createHeartBurst(e.clientX, e.clientY, 15);
 });
 
 // ============================================
@@ -338,6 +374,17 @@ function startCelebration() {
     createConfetti();
     createHeartsExplosion();
     playSound('celebration');
+    
+    // GRAND ENTRANCE: Multiple heart bursts!
+    for (let i = 0; i < 5; i++) {
+        setTimeout(() => {
+            createHeartBurst(
+                Math.random() * window.innerWidth,
+                Math.random() * window.innerHeight * 0.5 + 100,
+                40
+            );
+        }, i * 300);
+    }
 }
 
 // Hide preloader when page is loaded
@@ -926,6 +973,62 @@ setInterval(() => {
     }
 }, 8000);
 
+// EXTRA SPECIAL: Heart Burst Explosion - Creates a magical burst of hearts
+function createHeartBurst(x, y, count = 50) {
+    const heartEmojis = ['💖', '💕', '💗', '💝', '💘', '💓', '💞', '💟', '❤️', '🔥', '✨', '🌹', '🌸', '💐'];
+    
+    for (let i = 0; i < count; i++) {
+        setTimeout(() => {
+            const heart = document.createElement('div');
+            heart.style.position = 'fixed';
+            heart.style.left = (x || window.innerWidth / 2) + 'px';
+            heart.style.top = (y || window.innerHeight / 2) + 'px';
+            heart.style.fontSize = (Math.random() * 2 + 1.5) + 'rem';
+            heart.style.pointerEvents = 'none';
+            heart.style.zIndex = '10000';
+            heart.style.userSelect = 'none';
+            heart.textContent = heartEmojis[Math.floor(Math.random() * heartEmojis.length)];
+            
+            // Burst in all directions with different speeds
+            const angle = (Math.PI * 2 * i) / count;
+            const velocity = 200 + Math.random() * 400;
+            const vx = Math.cos(angle) * velocity;
+            const vy = Math.sin(angle) * velocity;
+            
+            heart.style.transition = `all ${1.5 + Math.random()}s cubic-bezier(0.25, 0.46, 0.45, 0.94)`;
+            heart.style.filter = `hue-rotate(${Math.random() * 60}deg) drop-shadow(0 0 15px rgba(255, 105, 180, 0.8))`;
+            document.body.appendChild(heart);
+            
+            // Force reflow
+            heart.offsetHeight;
+            
+            requestAnimationFrame(() => {
+                heart.style.transform = `translate(${vx}px, ${vy}px) rotate(${Math.random() * 720}deg) scale(${Math.random() * 0.5 + 0.3})`;
+                heart.style.opacity = '0';
+            });
+            
+            setTimeout(() => heart.remove(), 2500);
+        }, i * 15);
+    }
+}
+
+// Heart burst on scroll at special moments
+let lastScrollY = window.scrollY;
+window.addEventListener('scroll', () => {
+    const currentScrollY = window.scrollY;
+    const scrollDirection = currentScrollY > lastScrollY ? 'down' : 'up';
+    
+    // Create heart burst every 800px of scrolling
+    if (Math.floor(currentScrollY / 800) > Math.floor(lastScrollY / 800)) {
+        createHeartBurst(
+            Math.random() * window.innerWidth,
+            window.innerHeight / 2
+        );
+    }
+    
+    lastScrollY = currentScrollY;
+}, { passive: true });
+
 // Enhanced welcome with fireworks
 window.addEventListener('load', function () {
     setTimeout(() => {
@@ -944,3 +1047,226 @@ console.log('🎠 Carousel rotating...');
 console.log('⌨️ Typewriter typing...');
 console.log('🎂 Cake ready to cut...');
 console.log('⭐ Wish jar open...');
+console.log('💌 Love notes floating...');
+console.log('🎯 Spinner ready...');
+
+// ============================================
+// FLOATING LOVE NOTES - Click to Collect!
+// ============================================
+const loveNotesContainer = document.getElementById('loveNotesContainer');
+const loveJar = document.getElementById('loveJar');
+const jarCount = document.getElementById('jarCount');
+const notesModal = document.getElementById('notesModal');
+const notesClose = document.getElementById('notesClose');
+const collectedNotesContainer = document.getElementById('collectedNotes');
+
+const loveMessages = [
+    "You're the most beautiful person I know 💕",
+    "Your smile brightens my darkest days ☀️",
+    "I love the way you laugh 🎵",
+    "You're my favorite person in the world 🌍",
+    "Every moment with you is precious ✨",
+    "You make my heart skip a beat 💓",
+    "I'm so lucky to have you 🍀",
+    "Your kindness inspires me 🌟",
+    "You make everything better 💖",
+    "I miss you when you're not around 💭",
+    "You're my dream come true 🌙",
+    "I love your beautiful soul 🦋",
+    "You make me want to be better 🌱",
+    "Your hugs are my favorite place 🤗",
+    "I'm always thinking of you 💭",
+    "You complete me 💞",
+    "I love you more than words can say 💌",
+    "You're my happily ever after 🏰",
+    "My heart belongs to you 💝",
+    "Forever isn't long enough with you ⏰"
+];
+
+let collectedNotes = [];
+
+function createFloatingNote() {
+    const note = document.createElement('div');
+    note.className = 'love-note';
+    note.innerHTML = '💌';
+    note.style.left = Math.random() * 90 + 5 + '%';
+    note.style.top = Math.random() * 80 + 10 + '%';
+    note.style.animationDuration = (Math.random() * 3 + 4) + 's';
+    note.style.fontSize = (Math.random() * 10 + 30) + 'px';
+    
+    const message = loveMessages[Math.floor(Math.random() * loveMessages.length)];
+    note.dataset.message = message;
+    
+    note.addEventListener('click', function(e) {
+        e.stopPropagation();
+        collectNote(this);
+    });
+    
+    loveNotesContainer.appendChild(note);
+    
+    // Remove after animation
+    setTimeout(() => {
+        if (note.parentNode) {
+            note.remove();
+        }
+    }, 7000);
+}
+
+function collectNote(noteElement) {
+    const message = noteElement.dataset.message;
+    collectedNotes.push(message);
+    
+    // Update jar count
+    jarCount.textContent = collectedNotes.length;
+    
+    // Animate collection
+    noteElement.style.transform = 'scale(1.5)';
+    noteElement.style.transition = 'all 0.3s ease';
+    
+    setTimeout(() => {
+        // Move to jar
+        const jarRect = loveJar.getBoundingClientRect();
+        const noteRect = noteElement.getBoundingClientRect();
+        
+        noteElement.style.position = 'fixed';
+        noteElement.style.left = noteRect.left + 'px';
+        noteElement.style.top = noteRect.top + 'px';
+        noteElement.style.zIndex = '10000';
+        
+        requestAnimationFrame(() => {
+            noteElement.style.left = (jarRect.left + jarRect.width/2) + 'px';
+            noteElement.style.top = (jarRect.top + jarRect.height/2) + 'px';
+            noteElement.style.transform = 'scale(0)';
+            noteElement.style.opacity = '0';
+        });
+        
+        setTimeout(() => noteElement.remove(), 300);
+    }, 200);
+    
+    // Jar bounce animation
+    loveJar.style.animation = 'jarBounce 0.5s ease';
+    setTimeout(() => {
+        loveJar.style.animation = '';
+    }, 500);
+    
+    // Heart celebration
+    const rect = noteElement.getBoundingClientRect();
+    createHeartBurst(rect.left + rect.width/2, rect.top + rect.height/2, 20);
+}
+
+// Create notes periodically
+setInterval(createFloatingNote, 4000);
+
+// Create initial notes
+for (let i = 0; i < 3; i++) {
+    setTimeout(createFloatingNote, i * 1000);
+}
+
+// Jar click to view collected notes
+loveJar.addEventListener('click', function() {
+    if (collectedNotes.length === 0) {
+        alert('Collect love notes by clicking on them! 💌');
+        return;
+    }
+    
+    collectedNotesContainer.innerHTML = collectedNotes.map((note, index) => `
+        <div class="collected-note" style="animation-delay: ${index * 0.1}s">
+            <span class="note-number">#${index + 1}</span>
+            <span class="note-text">${note}</span>
+        </div>
+    `).join('');
+    
+    notesModal.classList.add('active');
+});
+
+// Close modal
+notesClose.addEventListener('click', function() {
+    notesModal.classList.remove('active');
+});
+
+notesModal.addEventListener('click', function(e) {
+    if (e.target === notesModal) {
+        notesModal.classList.remove('active');
+    }
+});
+
+// ============================================
+// LOVE SPINNER WHEEL
+// ============================================
+const spinButton = document.getElementById('spinButton');
+const loveWheel = document.getElementById('loveWheel');
+const prizeDisplay = document.getElementById('prizeDisplay');
+let isSpinning = false;
+
+const prizes = [
+    { emoji: '🤗', text: 'Virtual Hug', description: 'A big warm virtual hug just for you!' },
+    { emoji: '💋', text: 'Forehead Kiss', description: 'A sweet kiss on your forehead 💕' },
+    { emoji: '🫂', text: 'Cuddle Time', description: 'Cozy cuddles and warm embraces' },
+    { emoji: '🎬', text: 'Movie Night', description: 'Your choice of movie - I\'ll bring the popcorn!' },
+    { emoji: '🥞', text: 'Breakfast in Bed', description: 'I\'ll make you breakfast in bed!' },
+    { emoji: '🌹', text: 'Date Night', description: 'A special date night planned just for us' },
+    { emoji: '💆', text: 'Massage', description: 'Relaxing massage to melt your stress away' },
+    { emoji: '🎟️', text: 'Love Coupon', description: 'Redeem anytime for anything you want!' }
+];
+
+spinButton.addEventListener('click', function() {
+    if (isSpinning) return;
+    
+    isSpinning = true;
+    spinButton.disabled = true;
+    spinButton.textContent = 'Spinning... 🎰';
+    
+    // Random rotation (at least 5 full spins + random segment)
+    const randomDegree = Math.floor(Math.random() * 360);
+    const totalRotation = 1800 + randomDegree; // 5 full spins (360 * 5)
+    
+    // Apply rotation
+    loveWheel.style.transform = `rotate(${totalRotation}deg)`;
+    loveWheel.style.transition = 'transform 4s cubic-bezier(0.17, 0.67, 0.12, 0.99)';
+    
+    // Calculate winning prize
+    const segmentAngle = 360 / 8;
+    const winningIndex = Math.floor((360 - (randomDegree % 360)) / segmentAngle) % 8;
+    const winningPrize = prizes[winningIndex];
+    
+    // Show result after spin
+    setTimeout(() => {
+        prizeDisplay.innerHTML = `
+            <div class="prize-winner">
+                <span class="prize-emoji">${winningPrize.emoji}</span>
+                <h4 class="prize-title">${winningPrize.text}!</h4>
+                <p class="prize-desc">${winningPrize.description}</p>
+                <button class="claim-prize-btn" onclick="claimPrize('${winningPrize.text}')">Claim Prize 🎁</button>
+            </div>
+        `;
+        
+        // Celebration
+        createConfetti();
+        createHeartBurst(window.innerWidth/2, window.innerHeight/2, 50);
+        playSound('celebration');
+        
+        // Reset
+        setTimeout(() => {
+            isSpinning = false;
+            spinButton.disabled = false;
+            spinButton.textContent = 'SPIN AGAIN! 🎰';
+        }, 1000);
+    }, 4000);
+});
+
+function claimPrize(prizeName) {
+    alert(`🎉 ${prizeName} claimed!\n\nI'll make sure to give this to you, Riddu Baby! 💕`);
+    createConfetti();
+}
+
+// Add jar bounce animation to head
+const jarBounceStyle = document.createElement('style');
+jarBounceStyle.textContent = `
+    @keyframes jarBounce {
+        0%, 100% { transform: scale(1); }
+        25% { transform: scale(1.2); }
+        50% { transform: scale(0.9); }
+        75% { transform: scale(1.1); }
+    }
+`;
+document.head.appendChild(jarBounceStyle);

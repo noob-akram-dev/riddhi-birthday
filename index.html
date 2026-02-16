@@ -306,7 +306,50 @@
 
     <div class="music-control" id="musicControl">🎵</div>
     
-
+    <!-- Floating Love Notes Container -->
+    <div id="loveNotesContainer" class="love-notes-container"></div>
+    
+    <!-- Love Notes Collection Jar -->
+    <div class="love-jar-container" id="loveJarContainer">
+        <div class="love-jar" id="loveJar">
+            <span class="jar-emoji">🫙</span>
+            <span class="jar-count" id="jarCount">0</span>
+            <span class="jar-label">Love Notes</span>
+        </div>
+    </div>
+    
+    <!-- Collected Notes Modal -->
+    <div class="notes-modal" id="notesModal">
+        <div class="notes-modal-content">
+            <button class="notes-close" id="notesClose">✕</button>
+            <h3>💌 Your Collected Love Notes</h3>
+            <div class="collected-notes" id="collectedNotes"></div>
+        </div>
+    </div>
+    
+    <!-- Love Spinner Wheel -->
+    <div class="spinner-section" id="spinnerSection">
+        <h2 class="section-title">Spin the Wheel of Love! 🎯</h2>
+        <div class="spinner-container">
+            <div class="wheel-wrapper">
+                <div class="wheel" id="loveWheel">
+                    <div class="wheel-segment" data-prize="Virtual Hug"><span>🤗</span></div>
+                    <div class="wheel-segment" data-prize="Forehead Kiss"><span>💋</span></div>
+                    <div class="wheel-segment" data-prize="Cuddle Time"><span>🫂</span></div>
+                    <div class="wheel-segment" data-prize="Movie Night"><span>🎬</span></div>
+                    <div class="wheel-segment" data-prize="Breakfast in Bed"><span>🥞</span></div>
+                    <div class="wheel-segment" data-prize="Date Night"><span>🌹</span></div>
+                    <div class="wheel-segment" data-prize="Massage"><span>💆</span></div>
+                    <div class="wheel-segment" data-prize="Love Coupon"><span>🎟️</span></div>
+                </div>
+                <div class="wheel-pointer">▼</div>
+                <button class="spin-button" id="spinButton">SPIN! 🎰</button>
+            </div>
+            <div class="prize-display" id="prizeDisplay">
+                <p class="prize-text">Click SPIN to win a special prize! 💕</p>
+            </div>
+        </div>
+    </div>
 
     <script src="script.js"></script>
 </body>
