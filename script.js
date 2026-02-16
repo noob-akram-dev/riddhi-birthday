@@ -41,15 +41,23 @@ envelope.addEventListener('click', function () {
 });
 
 // Gift box click handler
-giftBox.addEventListener('click', function () {
+giftBox.addEventListener('click', function (e) {
+    if (this.classList.contains('opened')) return;
+
     this.classList.add('opened');
     surpriseMessage.classList.add('show');
+
+    // Get box position for centered explosion
+    const rect = this.getBoundingClientRect();
+    const centerX = rect.left + rect.width / 2;
+    const centerY = rect.top + rect.height / 2;
+
     createConfetti();
-    createHeartsExplosion();
+    createHeartsExplosion(centerX, centerY);
     playSound('celebration');
 
-    // Calculate days together - EDIT THIS DATE to your actual anniversary
-    const ANNIVERSARY_DATE = new Date('2023-01-01'); // 🎯 CHANGE THIS to your relationship start date
+    // Calculate days together
+    const ANNIVERSARY_DATE = new Date('2023-11-09'); // Updated based on memory book date
     const today = new Date();
     const diffTime = Math.abs(today - ANNIVERSARY_DATE);
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
@@ -111,35 +119,47 @@ function createConfetti() {
 }
 
 // Create hearts explosion
-function createHeartsExplosion() {
-    const heartEmojis = ['💖', '💕', '💗', '💝', '💘', '💓', '💞', '💟'];
+function createHeartsExplosion(startX, startY) {
+    const heartEmojis = ['💖', '💕', '💗', '💝', '💘', '💓', '💞', '💟', '❤️', '🔥', '✨', '🌹'];
+    const particleCount = 40;
+    const x = startX || window.innerWidth / 2;
+    const y = startY || window.innerHeight / 2;
 
-    for (let i = 0; i < 20; i++) {
+    for (let i = 0; i < particleCount; i++) {
         setTimeout(() => {
             const heart = document.createElement('div');
             heart.style.position = 'fixed';
-            heart.style.left = '50%';
-            heart.style.top = '50%';
-            heart.style.fontSize = '2rem';
+            heart.style.left = x + 'px';
+            heart.style.top = y + 'px';
+            heart.style.fontSize = (Math.random() * 1.5 + 1.5) + 'rem';
             heart.style.pointerEvents = 'none';
             heart.style.zIndex = '1000';
+            heart.style.userSelect = 'none';
             heart.textContent = heartEmojis[Math.floor(Math.random() * heartEmojis.length)];
 
-            const angle = (Math.PI * 2 * i) / 20;
-            const velocity = 200 + Math.random() * 200;
+            // Random direction and distance
+            const angle = Math.random() * Math.PI * 2;
+            const velocity = 150 + Math.random() * 350;
             const vx = Math.cos(angle) * velocity;
             const vy = Math.sin(angle) * velocity;
 
-            heart.style.transition = 'all 1.5s ease-out';
+            // Add some rotation to the hearts
+            const rotation = Math.random() * 360;
+            const endRotation = rotation + (Math.random() * 720 - 360);
+
+            heart.style.transition = `all ${1 + Math.random()}s cubic-bezier(0.1, 0.5, 0.3, 1)`;
             document.body.appendChild(heart);
 
+            // Force reflow
+            heart.offsetHeight;
+
             requestAnimationFrame(() => {
-                heart.style.transform = `translate(${vx}px, ${vy}px) scale(0)`;
+                heart.style.transform = `translate(${vx}px, ${vy}px) rotate(${endRotation}deg) scale(0)`;
                 heart.style.opacity = '0';
             });
 
-            setTimeout(() => heart.remove(), 1500);
-        }, i * 50);
+            setTimeout(() => heart.remove(), 2000);
+        }, Math.random() * 200);
     }
 }
 
@@ -291,7 +311,7 @@ function hidePreloader() {
 function startCelebration() {
     if (musicStarted) return;
     musicStarted = true;
-    
+
     // Play music
     if (bgMusic) {
         bgMusic.volume = 0.7; // Set comfortable volume
@@ -305,7 +325,7 @@ function startCelebration() {
             console.log('Audio play failed:', e);
         });
     }
-    
+
     // Hide start overlay
     if (startOverlay) {
         startOverlay.classList.add('hidden');
@@ -313,7 +333,7 @@ function startCelebration() {
             startOverlay.style.display = 'none';
         }, 600);
     }
-    
+
     // Start initial animations
     createConfetti();
     createHeartsExplosion();
