@@ -67,6 +67,110 @@ img.loaded {
     background: none;
 }
 
+/* Preloader */
+.preloader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #ffeef8 0%, #ffd1e8 100%);
+    z-index: 99999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.5s ease, visibility 0.5s ease;
+}
+
+.preloader.hidden {
+    opacity: 0;
+    visibility: hidden;
+}
+
+.preloader-content {
+    text-align: center;
+}
+
+.preloader-cake {
+    font-size: 5rem;
+    animation: bounce 1s ease-in-out infinite;
+}
+
+.preloader-text {
+    font-family: 'Pacifico', cursive;
+    color: #ff1493;
+    font-size: 1.5rem;
+    margin-top: 20px;
+}
+
+.preloader-hearts {
+    margin-top: 15px;
+    font-size: 1.5rem;
+}
+
+.preloader-hearts span {
+    display: inline-block;
+    animation: pulse 0.6s ease-in-out infinite;
+    margin: 0 5px;
+}
+
+.preloader-hearts span:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.preloader-hearts span:nth-child(3) {
+    animation-delay: 0.4s;
+}
+
+/* Scroll to Top Button */
+.scroll-to-top {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: linear-gradient(145deg, #ff69b4, #ff1493);
+    color: white;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    box-shadow: 0 5px 20px rgba(255, 20, 147, 0.4);
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(20px);
+    transition: all 0.3s ease;
+}
+
+.scroll-to-top.visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.scroll-to-top:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 30px rgba(255, 20, 147, 0.6);
+}
+
+.scroll-to-top:hover .scroll-arrow {
+    animation: spinArrow 1s linear infinite;
+}
+
+@keyframes spinArrow {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.scroll-to-top:active {
+    transform: translateY(0) scale(0.95);
+}
+
 /* Floating Hearts Background */
 #hearts-container {
     position: fixed;
@@ -359,6 +463,60 @@ img.loaded {
     }
 }
 
+.birthday-tagline {
+    font-family: 'Pacifico', cursive;
+    color: #ff69b4;
+    font-size: 1.3rem;
+    margin-bottom: 20px;
+    animation: fadeIn 1s ease-out 0.5s both;
+}
+
+/* Birthday Countdown */
+.birthday-countdown {
+    margin: 20px 0;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(255, 105, 180, 0.2);
+}
+
+.countdown-label {
+    font-family: 'Pacifico', cursive;
+    color: #ff69b4;
+    font-size: 1.2rem;
+    margin-bottom: 15px;
+}
+
+.countdown-timer {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.countdown-item {
+    background: linear-gradient(145deg, #ff69b4, #ff1493);
+    color: white;
+    padding: 15px 20px;
+    border-radius: 15px;
+    min-width: 80px;
+    box-shadow: 0 5px 15px rgba(255, 20, 147, 0.3);
+}
+
+.countdown-value {
+    display: block;
+    font-size: 2rem;
+    font-weight: bold;
+    font-family: 'Poppins', sans-serif;
+}
+
+.countdown-unit {
+    display: block;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    opacity: 0.9;
+}
+
 .surprise-btn {
     display: block;
     margin: 20px auto;
@@ -389,8 +547,8 @@ img.loaded {
 }
 
 .envelope {
-    width: 320px;
-    height: 220px;
+    width: 420px;
+    height: 280px;
     position: relative;
     cursor: pointer;
     transition: transform 0.3s ease;
@@ -416,7 +574,7 @@ img.loaded {
 }
 
 .envelope-icon {
-    font-size: 4rem;
+    font-size: 5rem;
     animation: pulse 2s ease-in-out infinite;
 }
 
@@ -435,8 +593,8 @@ img.loaded {
 .envelope-front p {
     color: white;
     font-family: 'Pacifico', cursive;
-    font-size: 1.2rem;
-    margin-top: 10px;
+    font-size: 1.5rem;
+    margin-top: 15px;
 }
 
 .envelope-back {
@@ -467,26 +625,26 @@ img.loaded {
 }
 
 .letter {
-    padding: 30px;
+    padding: 40px;
     text-align: left;
     background: white;
     border-radius: 15px;
-    max-height: 200px;
+    max-height: 260px;
     overflow-y: auto;
 }
 
 .letter h2 {
     font-family: 'Pacifico', cursive;
     color: #ff1493;
-    margin-bottom: 15px;
-    font-size: 1.5rem;
+    margin-bottom: 20px;
+    font-size: 1.8rem;
 }
 
 .letter-text {
-    font-size: 0.85rem;
-    line-height: 1.6;
+    font-size: 1rem;
+    line-height: 1.8;
     color: #555;
-    margin-bottom: 10px;
+    margin-bottom: 12px;
 }
 
 .signature {
@@ -628,10 +786,21 @@ img.loaded {
     position: relative;
     cursor: pointer;
     transition: transform 0.3s ease;
+    animation: giftBoxPulse 2s ease-in-out infinite;
+}
+
+@keyframes giftBoxPulse {
+    0%, 100% {
+        box-shadow: 0 0 0 0 rgba(255, 105, 180, 0.4);
+    }
+    50% {
+        box-shadow: 0 0 0 20px rgba(255, 105, 180, 0);
+    }
 }
 
 .gift-box:hover {
     transform: scale(1.1);
+    animation: none;
 }
 
 .gift-box.opened {
@@ -694,6 +863,39 @@ img.loaded {
     font-family: 'Pacifico', cursive;
     color: white;
     font-size: 1.2rem;
+    animation: giftTextPulse 1.5s ease-in-out infinite;
+}
+
+@keyframes giftTextPulse {
+    0%, 100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 0.8;
+        transform: scale(1.05);
+    }
+}
+
+.gift-box:hover .gift-text {
+    animation: none;
+}
+
+.gift-hint {
+    font-family: 'Pacifico', cursive;
+    color: #ff69b4;
+    font-size: 1.1rem;
+    margin-top: 15px;
+    animation: hintPulse 2s ease-in-out infinite;
+}
+
+@keyframes hintPulse {
+    0%, 100% {
+        opacity: 0.7;
+    }
+    50% {
+        opacity: 1;
+    }
 }
 
 .surprise-message {
@@ -804,12 +1006,29 @@ img.loaded {
     }
 
     .envelope {
-        width: 280px;
-        height: 190px;
+        width: 340px;
+        height: 240px;
     }
 
     .letter {
-        padding: 20px;
+        padding: 25px;
+        max-height: 220px;
+    }
+
+    .letter h2 {
+        font-size: 1.5rem;
+    }
+
+    .letter-text {
+        font-size: 0.9rem;
+    }
+
+    .envelope-icon {
+        font-size: 4rem;
+    }
+
+    .envelope-front p {
+        font-size: 1.3rem;
     }
 
     .photo-grid {
@@ -1239,6 +1458,14 @@ textarea {
     line-height: 1.8;
     max-width: 600px;
     margin: 0 auto;
+}
+
+.memory-date {
+    font-family: 'Pacifico', cursive;
+    color: #ff69b4;
+    font-size: 1.1rem;
+    margin-bottom: 15px;
+    display: block;
 }
 
 .book-controls {
@@ -1741,5 +1968,69 @@ textarea {
 
     .big-cake-base {
         font-size: 100px;
+    }
+
+    /* Birthday Countdown Mobile */
+    .birthday-countdown {
+        padding: 15px;
+        margin: 15px 0;
+    }
+
+    .countdown-timer {
+        gap: 10px;
+    }
+
+    .countdown-item {
+        min-width: 60px;
+        padding: 10px 12px;
+    }
+
+    .countdown-value {
+        font-size: 1.5rem;
+    }
+
+    .countdown-unit {
+        font-size: 0.7rem;
+    }
+
+    .countdown-label {
+        font-size: 1rem;
+    }
+
+    .birthday-tagline {
+        font-size: 1.1rem;
+    }
+
+    /* Scroll to top mobile */
+    .scroll-to-top {
+        width: 45px;
+        height: 45px;
+        font-size: 1.3rem;
+        bottom: 20px;
+        right: 20px;
+    }
+
+    /* Gift box mobile */
+    .gift-box {
+        width: 130px;
+        height: 130px;
+    }
+
+    .gift-lid {
+        width: 140px;
+        height: 35px;
+    }
+
+    .gift-body {
+        width: 130px;
+        height: 95px;
+    }
+
+    .gift-text {
+        font-size: 1rem;
+    }
+
+    .gift-hint {
+        font-size: 0.95rem;
     }
 }

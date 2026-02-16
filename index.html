@@ -28,6 +28,17 @@
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎂</text></svg>">
 </head>
 <body>
+    <!-- Preloader -->
+    <div id="preloader" class="preloader">
+        <div class="preloader-content">
+            <div class="preloader-cake">🎂</div>
+            <div class="preloader-text">Loading your surprise...</div>
+            <div class="preloader-hearts">
+                <span>💕</span><span>💖</span><span>💗</span>
+            </div>
+        </div>
+    </div>
+    
     <div id="hearts-container"></div>
     <div id="petals-container"></div>
     <div id="fireworks-container"></div>
@@ -62,6 +73,31 @@
             <div class="name-container">
                 <p class="to-text">to my beautiful</p>
                 <h2 class="hero-name">Riddu Baby</h2>
+                <p class="birthday-tagline">Celebrating 3 wonderful years together 💕</p>
+                
+                <!-- Birthday Countdown -->
+                <div class="birthday-countdown" id="birthdayCountdown">
+                    <p class="countdown-label">Time until your special day:</p>
+                    <div class="countdown-timer">
+                        <div class="countdown-item">
+                            <span class="countdown-value" id="countdownDays">00</span>
+                            <span class="countdown-unit">Days</span>
+                        </div>
+                        <div class="countdown-item">
+                            <span class="countdown-value" id="countdownHours">00</span>
+                            <span class="countdown-unit">Hours</span>
+                        </div>
+                        <div class="countdown-item">
+                            <span class="countdown-value" id="countdownMinutes">00</span>
+                            <span class="countdown-unit">Minutes</span>
+                        </div>
+                        <div class="countdown-item">
+                            <span class="countdown-value" id="countdownSeconds">00</span>
+                            <span class="countdown-unit">Seconds</span>
+                        </div>
+                    </div>
+                </div>
+                
                 <button id="surpriseBtn" class="surprise-btn">Click for Surprise! 🎁</button>
             </div>
         </div>
@@ -135,25 +171,28 @@
                     <div class="book-page active" data-page="0">
                         <div class="page-content">
                             <h3>How We Met 💕</h3>
-                            <p>The day our paths crossed and my life changed forever. I knew from the moment I saw you that you were someone special.</p>
+                            <p class="memory-date">November 9th, 2023</p>
+                            <p>The day everything changed - you sent me a friend request on Instagram and my life has never been the same since. That simple click started the most beautiful journey. Every message, every conversation made me realize you were someone truly special.</p>
                         </div>
                     </div>
                     <div class="book-page" data-page="1">
                         <div class="page-content">
                             <h3>Our First Date 💖</h3>
-                            <p>That magical evening I'll never forget. Every moment with you felt like a dream come true.</p>
+                            <p class="memory-date">No Meat Naan</p>
+                            <p>That magical evening at No Meat Naan - even when the lights went out due to an electricity shortage, the only thing I could see was your beautiful smile lighting up the darkness. It was perfect because I was with you.</p>
                         </div>
                     </div>
                     <div class="book-page" data-page="2">
                         <div class="page-content">
                             <h3>When I Knew 💗</h3>
-                            <p>The moment I realized you were the one. My heart knew before my mind could catch up.</p>
+                            <p>The moment I realized you were the one. Through every conversation, every laugh, and every moment together, my heart knew before my mind could catch up. You became my favorite person.</p>
                         </div>
                     </div>
                     <div class="book-page" data-page="3">
                         <div class="page-content">
-                            <h3>Today 💝</h3>
-                            <p>Celebrating the most beautiful soul I know. Happy Birthday to my everything!</p>
+                            <h3>Your 3rd Birthday 🎂</h3>
+                            <p class="memory-date">February 17th - Today!</p>
+                            <p>And here we are, celebrating your 3rd birthday together! Three years of memories, laughter, and love. Every year with you gets better and better. Happy Birthday to the most beautiful soul I know! 💝</p>
                         </div>
                     </div>
                 </div>
@@ -225,14 +264,16 @@
         </div>
 
         <div class="interactive-section">
+            <h2 class="section-title">A Special Surprise Just For You 🎁</h2>
             <div class="gift-box" id="giftBox">
                 <div class="gift-lid">
                     <span class="ribbon">🎀</span>
                 </div>
                 <div class="gift-body">
-                    <span class="gift-text">Open Me!</span>
+                    <span class="gift-text">Click to Open!</span>
                 </div>
             </div>
+            <p class="gift-hint">✨ Tap the gift box to reveal your surprise ✨</p>
             <div class="surprise-message" id="surpriseMessage">
                 <h3>You are my everything! 💖</h3>
                 <p class="countdown-text">Days we've been together: <span id="daysCount">0</span></p>
@@ -249,6 +290,9 @@
     </audio>
 
     <div class="music-control" id="musicControl">🎵</div>
+    
+    <!-- Scroll to Top Button -->
+    <button id="scrollToTop" class="scroll-to-top" onclick="scrollToTop()" title="Back to top"><span class="scroll-arrow">⬆️</span></button>
 
     <script src="script.js"></script>
 </body>

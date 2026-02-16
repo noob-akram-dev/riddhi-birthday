@@ -267,6 +267,48 @@ document.addEventListener('click', function (e) {
 // Check for reduced motion preference
 const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+// Preloader
+const preloader = document.getElementById('preloader');
+
+function hidePreloader() {
+    if (preloader) {
+        setTimeout(() => {
+            preloader.classList.add('hidden');
+            setTimeout(() => {
+                preloader.style.display = 'none';
+            }, 500);
+        }, 1500); // Show for at least 1.5 seconds
+    }
+}
+
+// Hide preloader when page is loaded
+window.addEventListener('load', hidePreloader);
+
+// Scroll to Top functionality
+const scrollToTopBtn = document.getElementById('scrollToTop');
+
+function scrollToTop() {
+    window.scrollTo({
+        top: 0,
+        behavior: prefersReducedMotion ? 'auto' : 'smooth'
+    });
+}
+
+// Show/hide scroll to top button based on scroll position
+let scrollTimeout;
+window.addEventListener('scroll', () => {
+    if (scrollTimeout) return;
+    
+    scrollTimeout = setTimeout(() => {
+        if (window.pageYOffset > 500) {
+            scrollToTopBtn?.classList.add('visible');
+        } else {
+            scrollToTopBtn?.classList.remove('visible');
+        }
+        scrollTimeout = null;
+    }, 100);
+}, { passive: true });
+
 // Intersection Observer for scroll animations
 const observerOptions = {
     root: null,
@@ -310,6 +352,51 @@ document.querySelectorAll('button, .envelope, .gift-box, .big-cake, .photo-item'
 console.log('🎂 Happy Birthday Website Loaded! 💕');
 console.log('Made with love for the most special person! 💖');
 console.log(prefersReducedMotion ? '⚠️ Reduced motion enabled' : '✨ Full animations enabled');
+
+// Birthday Countdown Timer
+function updateBirthdayCountdown() {
+    const now = new Date();
+    const currentYear = now.getFullYear();
+
+    // Set the birthday date here (Month is 0-indexed: 0 = January, 1 = February, etc.)
+    const BIRTHDAY_MONTH = 1; // February
+    const BIRTHDAY_DAY = 17; // Her birthday - February 17th
+
+    let birthday = new Date(currentYear, BIRTHDAY_MONTH, BIRTHDAY_DAY);
+
+    // If birthday has passed this year, set it to next year
+    if (now > birthday) {
+        birthday = new Date(currentYear + 1, BIRTHDAY_MONTH, BIRTHDAY_DAY);
+    }
+
+    const diff = birthday - now;
+
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+    // Update DOM
+    const daysEl = document.getElementById('countdownDays');
+    const hoursEl = document.getElementById('countdownHours');
+    const minutesEl = document.getElementById('countdownMinutes');
+    const secondsEl = document.getElementById('countdownSeconds');
+
+    if (daysEl) daysEl.textContent = String(days).padStart(2, '0');
+    if (hoursEl) hoursEl.textContent = String(hours).padStart(2, '0');
+    if (minutesEl) minutesEl.textContent = String(minutes).padStart(2, '0');
+    if (secondsEl) secondsEl.textContent = String(seconds).padStart(2, '0');
+
+    // Check if it's birthday today
+    if (days === 0 && hours === 0 && minutes === 0 && seconds === 0) {
+        const label = document.querySelector('.countdown-label');
+        if (label) label.textContent = "IT'S YOUR BIRTHDAY!";
+    }
+}
+
+// Update countdown every second
+setInterval(updateBirthdayCountdown, 1000);
+updateBirthdayCountdown(); // Initial call
 
 // ============================================
 // NEW FEATURES - Enhanced Interactive Elements
@@ -432,8 +519,27 @@ function initCarousel() {
     photos.forEach((photo, index) => {
         // Create slide item
         const item = document.createElement('div');
-        item.className = 'carousel-item';
-        item.innerHTML = `<img src="${photo}" alt="Memory ${index + 1}" onclick="openLightbox(${index})">`;
+        item.className = 'carousel-item loading';
+        
+        const img = document.createElement('img');
+        img.src = photo;
+        img.alt = `Memory ${index + 1}`;
+        img.loading = index < 2 ? 'eager' : 'lazy'; // First 2 images load immediately
+        img.onclick = () => openLightbox(index);
+        
+        // Handle image load
+        img.onload = () => {
+            img.classList.add('loaded');
+            item.classList.remove('loading');
+        };
+        
+        // Handle image error
+        img.onerror = () => {
+            item.classList.remove('loading');
+            item.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100%;color:#ff1493;font-size:3rem;">💕</div>';
+        };
+        
+        item.appendChild(img);
         carouselSlide.appendChild(item);
 
         // Create dot
