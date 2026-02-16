@@ -267,8 +267,10 @@ document.addEventListener('click', function (e) {
 // Check for reduced motion preference
 const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-// Preloader
+// Preloader and Start Overlay
 const preloader = document.getElementById('preloader');
+const startOverlay = document.getElementById('startOverlay');
+let musicStarted = false;
 
 function hidePreloader() {
     if (preloader) {
@@ -276,38 +278,57 @@ function hidePreloader() {
             preloader.classList.add('hidden');
             setTimeout(() => {
                 preloader.style.display = 'none';
+                // Show start overlay after preloader
+                if (startOverlay) {
+                    startOverlay.style.display = 'flex';
+                }
             }, 500);
         }, 1500); // Show for at least 1.5 seconds
     }
 }
 
+// Start celebration on click
+function startCelebration() {
+    if (musicStarted) return;
+    musicStarted = true;
+    
+    // Play music
+    if (bgMusic) {
+        bgMusic.volume = 0.7; // Set comfortable volume
+        bgMusic.play().then(() => {
+            isPlaying = true;
+            if (musicControl) {
+                musicControl.classList.add('playing');
+                musicControl.textContent = '🎶';
+            }
+        }).catch(e => {
+            console.log('Audio play failed:', e);
+        });
+    }
+    
+    // Hide start overlay
+    if (startOverlay) {
+        startOverlay.classList.add('hidden');
+        setTimeout(() => {
+            startOverlay.style.display = 'none';
+        }, 600);
+    }
+    
+    // Start initial animations
+    createConfetti();
+    createHeartsExplosion();
+    playSound('celebration');
+}
+
 // Hide preloader when page is loaded
 window.addEventListener('load', hidePreloader);
 
-// Scroll to Top functionality
-const scrollToTopBtn = document.getElementById('scrollToTop');
-
-function scrollToTop() {
-    window.scrollTo({
-        top: 0,
-        behavior: prefersReducedMotion ? 'auto' : 'smooth'
-    });
+// Start overlay click handler
+if (startOverlay) {
+    startOverlay.addEventListener('click', startCelebration);
 }
 
-// Show/hide scroll to top button based on scroll position
-let scrollTimeout;
-window.addEventListener('scroll', () => {
-    if (scrollTimeout) return;
-    
-    scrollTimeout = setTimeout(() => {
-        if (window.pageYOffset > 500) {
-            scrollToTopBtn?.classList.add('visible');
-        } else {
-            scrollToTopBtn?.classList.remove('visible');
-        }
-        scrollTimeout = null;
-    }, 100);
-}, { passive: true });
+
 
 // Intersection Observer for scroll animations
 const observerOptions = {
@@ -340,7 +361,7 @@ function addTouchFeedback(element) {
     element.addEventListener('touchstart', () => {
         element.style.transform = 'scale(0.95)';
     }, { passive: true });
-    
+
     element.addEventListener('touchend', () => {
         element.style.transform = '';
     }, { passive: true });
@@ -520,25 +541,25 @@ function initCarousel() {
         // Create slide item
         const item = document.createElement('div');
         item.className = 'carousel-item loading';
-        
+
         const img = document.createElement('img');
         img.src = photo;
         img.alt = `Memory ${index + 1}`;
         img.loading = index < 2 ? 'eager' : 'lazy'; // First 2 images load immediately
         img.onclick = () => openLightbox(index);
-        
+
         // Handle image load
         img.onload = () => {
             img.classList.add('loaded');
             item.classList.remove('loading');
         };
-        
+
         // Handle image error
         img.onerror = () => {
             item.classList.remove('loading');
             item.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100%;color:#ff1493;font-size:3rem;">💕</div>';
         };
-        
+
         item.appendChild(img);
         carouselSlide.appendChild(item);
 
@@ -599,11 +620,11 @@ if (carouselSlide) {
     carouselSlide.addEventListener('touchend', (e) => {
         touchEndX = e.changedTouches[0].screenX;
         const touchEndY = e.changedTouches[0].screenY;
-        
+
         // Calculate swipe distance
         const diffX = touchStartX - touchEndX;
         const diffY = touchStartY - touchEndY;
-        
+
         // Only handle horizontal swipes (ignore vertical scrolling)
         if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 50) {
             if (diffX > 0) {
